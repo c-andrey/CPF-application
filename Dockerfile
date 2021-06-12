@@ -17,4 +17,4 @@ COPY . .
 
 EXPOSE 8080
 
-CMD ["node", "server.js"]
+CMD [ "ts-node-dev", "--poll", "--respawn", "--transpile-only", "--ignore-watch", "node_modules", "src/server.ts" ]
