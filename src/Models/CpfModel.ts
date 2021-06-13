@@ -6,7 +6,7 @@ const cpfSchema = new Schema({
 });
 
 export class Cpf extends ModelBase {
-    number: string;
+    number: number;
 
     constructor(init?: Partial<Cpf>) {
         super(init);

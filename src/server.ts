@@ -1,7 +1,9 @@
-'use strict';
 import { json } from 'body-parser';
-import { cpfRouter } from './router';
 import express from 'express';
+import http from 'http';
+import { AppRouter } from './config/AppRouter';
+
+import './Controllers/CpfController';
 
 import { run } from './config/MongooseConection';
 // Constants
@@ -10,14 +12,12 @@ const HOST = 'localhost';
 
 // App
 const app = express();
+
 app.use(json());
-app.use(cpfRouter);
+app.use(AppRouter.getInstance());
 
-run();
-app.get('/', (req, res) => {
-    res.send('Hello World !!');
-});
+// run();
 
-app.listen(PORT, () => {
+http.createServer(app).listen(PORT, () => {
     console.log(`Running on http://${HOST}:${PORT}`);
 });

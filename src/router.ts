@@ -3,6 +3,10 @@ import { Request, Response } from 'express';
 
 const router = express.Router();
 
+router.get('/', (req: Request, res: Response) => {
+    res.send('asd');
+});
+
 router.get('/api/cpf', (req: Request, res: Response) => {
     try {
         return res.send('cpf');

@@ -1,13 +1,19 @@
 {  
   "compilerOptions": {  
-  "target": "es6",  
+  "target": "es5",  
     "module": "commonjs",  
     "rootDir": "src",  
     "outDir": "dist",  
     "sourceMap": true,  
     "resolveJsonModule": true,  
     "lib": ["es6", "dom"],  
-    "esModuleInterop": true  
+    "esModuleInterop": true,
+    "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
+    "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
+
+    /* Advanced Options */
+    "skipLibCheck": true,                     /* Skip type checking of declaration files. */
+    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },  
   "include": [  
     "src/**/*.ts"  
