@@ -41,13 +41,13 @@ export abstract class RepositoryBase<TModel extends ModelBase> {
         return items.map(item => item.toObject<TModel>());
     }
 
-    public async create(data: TModel): Promise<TModel> {
+    create = async (data: TModel): Promise<TModel> => {
         const entity = new this._mongooseModel(data);
         const saved = await entity.save();
         return await this.findById(saved.id);
-    }
+    };
 
-    public async update(id: string, data: TModel): Promise<TModel> {
+    update = async (id: string, data: TModel): Promise<TModel> => {
         const saved = await this._mongooseModel
             .findByIdAndUpdate(id, data as any)
             .exec();
@@ -55,7 +55,7 @@ export abstract class RepositoryBase<TModel extends ModelBase> {
             return null;
         }
         return this.findById(saved.id);
-    }
+    };
 
     public async delete(id: string): Promise<boolean> {
         const deleted = await this._mongooseModel.findByIdAndDelete(id).exec();

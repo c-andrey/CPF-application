@@ -1,3 +1,3 @@
 export interface CpfInterface {
-  numero: number;
+    number: number;
 }

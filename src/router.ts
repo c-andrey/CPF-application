@@ -1,5 +1,8 @@
 import express from 'express';
 import { Request, Response } from 'express';
+import { CpfController } from './Controllers/CpfController';
+
+const cpfController = new CpfController();
 
 const router = express.Router();
 
@@ -7,29 +10,10 @@ router.get('/', (req: Request, res: Response) => {
     res.send('asd');
 });
 
-router.get('/api/cpf', (req: Request, res: Response) => {
-    try {
-        return res.send('cpf');
-    } catch (error) {
-        throw error(error);
-    }
-});
+router.put('/api/cpf/:id', cpfController.put);
 
-router.post('/api/cpf', (req: Request, res: Response) => {
-    try {
-        const { number } = req.body;
-        return res.send(number);
-    } catch (error) {
-        throw error;
-    }
-});
-router.delete('/api/cpf/{id}', (req: Request, res: Response) => {
-    try {
-        return res.send('cpf deletado');
-    } catch (error) {
-        throw error;
-    }
-});
+router.post('/api/cpf', cpfController.post);
+router.delete('/api/cpf/:id', cpfController.delete);
 
 router.post('/api/block', (req: Request, res: Response) => {
     try {

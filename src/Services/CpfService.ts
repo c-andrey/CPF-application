@@ -1,6 +1,8 @@
+import { modelNames } from 'mongoose';
 import { CpfRequestDto, CpfResponseDto } from '../dtos/CpfDto';
-import { Cpf } from '../Models/CpfModel';
+import { Cpf, CpfModel } from '../Models/CpfModel';
 import { CpfsRepository } from '../Repositories/CpfsRepository';
+import { RepositoryBase } from '../Repositories/RepositoryBase';
 import { ServiceBase } from './ServiceBase';
 
 export class CpfService extends ServiceBase<
@@ -9,6 +11,10 @@ export class CpfService extends ServiceBase<
     Cpf
 > {
     protected repo: CpfsRepository;
+    constructor() {
+        super();
+        this.repo = new CpfsRepository(CpfModel);
+    }
     public async getAll(number?: number): Promise<CpfResponseDto[]> {
         const data = await this.repo.getAll({ number }, { number });
         const result = data.map(item => this.modelToDto(item));
@@ -24,17 +30,17 @@ export class CpfService extends ServiceBase<
         return null;
     }
 
-    public async create(dto: CpfRequestDto): Promise<CpfResponseDto> {
+    create = async (dto: CpfRequestDto): Promise<CpfResponseDto> => {
         let model = this.dtoToModel(dto);
         model = await this.repo.create(model);
         const result = this.modelToDto(model);
         return result;
-    }
+    };
 
-    public async update(
+    update = async (
         id: string,
         dto: CpfRequestDto,
-    ): Promise<CpfResponseDto> {
+    ): Promise<CpfResponseDto> => {
         const exist = await this.repo.exists({ _id: id });
         if (!exist) {
             return null;
@@ -43,22 +49,22 @@ export class CpfService extends ServiceBase<
         let model = this.dtoToModel(dto);
         model = await this.repo.update(id, model);
         return this.modelToDto(model);
-    }
+    };
 
-    public async delete(id: string): Promise<boolean> {
+    delete = async (id: string): Promise<boolean> => {
         const exist = await this.repo.exists({ _id: id });
         if (!exist) {
             return null;
         }
 
         return this.repo.delete(id);
-    }
+    };
 
     protected modelToDto(model: Cpf): CpfResponseDto {
-        return new CpfResponseDto(model.number);
+        return new CpfResponseDto(model);
     }
 
     protected dtoToModel(dto: CpfRequestDto): Cpf {
-        return new Cpf({ number: dto.number });
+        return new Cpf(dto.getInstance());
     }
 }
