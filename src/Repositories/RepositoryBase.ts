@@ -26,10 +26,10 @@ export abstract class RepositoryBase<TModel extends ModelBase> {
         return this._mongooseModel.exists(conditions as any);
     }
 
-    public async getAll(
+    getAll = async (
         conditions?: Partial<TModel>,
         sort?: Partial<TModel>,
-    ): Promise<TModel[]> {
+    ): Promise<TModel[]> => {
         const query = this._mongooseModel.find(conditions as any);
         if (sort) {
             query.sort(sort);
@@ -39,7 +39,7 @@ export abstract class RepositoryBase<TModel extends ModelBase> {
             return [];
         }
         return items.map(item => item.toObject<TModel>());
-    }
+    };
 
     create = async (data: TModel): Promise<TModel> => {
         const entity = new this._mongooseModel(data);

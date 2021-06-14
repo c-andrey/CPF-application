@@ -7,10 +7,15 @@ export class CpfController {
     constructor() {
         this._service = new CpfService();
     }
-    getCpf(req: Request, res: Response): void {
-        const { id } = req.params;
-        res.send(id);
-    }
+    get = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const results = await this._service.getAll();
+            res.status(200).send(results);
+        } catch (error) {
+            res.status(404).send(error.message);
+            throw error;
+        }
+    };
 
     post = async (req: Request, res: Response): Promise<void> => {
         try {

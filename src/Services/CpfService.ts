@@ -1,8 +1,6 @@
-import { modelNames } from 'mongoose';
 import { CpfRequestDto, CpfResponseDto } from '../dtos/CpfDto';
 import { Cpf, CpfModel } from '../Models/CpfModel';
 import { CpfsRepository } from '../Repositories/CpfsRepository';
-import { RepositoryBase } from '../Repositories/RepositoryBase';
 import { ServiceBase } from './ServiceBase';
 
 export class CpfService extends ServiceBase<
@@ -15,11 +13,14 @@ export class CpfService extends ServiceBase<
         super();
         this.repo = new CpfsRepository(CpfModel);
     }
-    public async getAll(number?: number): Promise<CpfResponseDto[]> {
-        const data = await this.repo.getAll({ number }, { number });
+    getAll = async (
+        conditions?: Partial<Cpf>,
+        sort?: Partial<Cpf>,
+    ): Promise<CpfResponseDto[]> => {
+        const data = await this.repo.getAll(conditions, sort);
         const result = data.map(item => this.modelToDto(item));
         return result;
-    }
+    };
 
     public async findById(id: string): Promise<CpfResponseDto> {
         const data = await this.repo.findById(id);

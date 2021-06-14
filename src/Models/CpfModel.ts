@@ -1,6 +1,7 @@
 import { model, Document, Schema } from 'mongoose';
 import { CpfInterface } from '../Interfaces/CpfInterface';
 import { ModelBase } from './ModelBase';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const cpfSchema = new Schema({
     number: { type: Schema.Types.Number, required: true },
@@ -8,11 +9,13 @@ const cpfSchema = new Schema({
     updatedAt: { type: Schema.Types.Date, required: false },
 });
 
+cpfSchema.plugin(mongoosePaginate);
+
 cpfSchema.pre('save', function () {
     this.set({ createdAt: Date.now() });
 });
 
-cpfSchema.pre('findByIdAndUpdate', function () {
+cpfSchema.pre('findOneAndUpdate', function () {
     this.set('updatedAt', Date.now());
 });
 

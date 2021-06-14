@@ -6,12 +6,8 @@ const cpfController = new CpfController();
 
 const router = express.Router();
 
-router.get('/', (req: Request, res: Response) => {
-    res.send('asd');
-});
-
+router.get('/api/cpf', cpfController.get);
 router.put('/api/cpf/:id', cpfController.put);
-
 router.post('/api/cpf', cpfController.post);
 router.delete('/api/cpf/:id', cpfController.delete);
 
