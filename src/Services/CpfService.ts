@@ -41,6 +41,11 @@ export class CpfService extends ServiceBase<
 
     create = async (dto: CpfRequestDto): Promise<CpfResponseDto> => {
         let model = this.dtoToModel(dto);
+
+        if (this.verifyDuplicate(model.number)) {
+            throw new Error('Cpf já cadastrado.');
+        }
+
         model = await this.repo.create(model);
         const result = this.modelToDto(model);
         return result;
@@ -52,10 +57,15 @@ export class CpfService extends ServiceBase<
     ): Promise<CpfResponseDto> => {
         const exist = await this.repo.exists({ _id: id });
         if (!exist) {
-            return null;
+            throw new Error('Registro não existe.');
         }
 
         let model = this.dtoToModel(dto);
+
+        if (this.verifyDuplicate(model.number)) {
+            throw new Error('Cpf já cadastrado.');
+        }
+
         model = await this.repo.update(id, model);
         return this.modelToDto(model);
     };
@@ -63,10 +73,15 @@ export class CpfService extends ServiceBase<
     delete = async (id: string): Promise<boolean> => {
         const exist = await this.repo.exists({ _id: id });
         if (!exist) {
-            return null;
+            throw new Error('Registro não existe.');
         }
 
         return this.repo.delete(id);
+    };
+
+    verifyDuplicate = async (number: string): Promise<boolean> => {
+        const exist = await this.repo.exists({ number });
+        return !!exist;
     };
 
     protected modelToDto(model: Cpf): CpfResponseDto {

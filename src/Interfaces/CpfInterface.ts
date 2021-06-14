@@ -3,6 +3,7 @@ export interface CpfInterface {
 }
 
 export interface CpfRequest {
+    id: string;
     sort?: string;
     number: string;
     createdAt: Date;

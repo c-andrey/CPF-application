@@ -34,8 +34,8 @@ export class CpfController {
 
             res.status(201).send(created);
         } catch (error) {
+            console.log(error);
             res.status(400).send(error.message);
-            throw error;
         }
     };
 
