@@ -14,10 +14,18 @@ export class CpfService extends ServiceBase<
         this.repo = new CpfsRepository(CpfModel);
     }
     getAll = async (
-        conditions?: Partial<Cpf>,
-        sort?: Partial<Cpf>,
+        cpf: Partial<Cpf>,
+        sort: string,
     ): Promise<CpfResponseDto[]> => {
-        const data = await this.repo.getAll(conditions, sort);
+        let query = {};
+        if (cpf.number) {
+            query = {
+                ...query,
+                number: cpf.number,
+            };
+        }
+
+        const data = await this.repo.getAll(query, { number: sort || 'asc' });
         const result = data.map(item => this.modelToDto(item));
         return result;
     };

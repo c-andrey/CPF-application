@@ -4,7 +4,7 @@ import { ModelBase } from './ModelBase';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
 const cpfSchema = new Schema({
-    number: { type: Schema.Types.Number, required: true },
+    number: { type: Schema.Types.String, required: true },
     createdAt: { type: Schema.Types.Date, required: false },
     updatedAt: { type: Schema.Types.Date, required: false },
 });
@@ -20,7 +20,7 @@ cpfSchema.pre('findOneAndUpdate', function () {
 });
 
 export class Cpf extends ModelBase implements CpfInterface {
-    number: number;
+    number: string;
     constructor(init?: Partial<Cpf>) {
         super(init);
         Object.assign(this, init);

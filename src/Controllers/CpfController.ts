@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { CpfRequestDto, CpfResponseDto } from '../dtos/CpfDto';
+import { CpfRequest } from '../Interfaces/CpfInterface';
 import { CpfService } from '../Services/CpfService';
 
 export class CpfController {
@@ -7,9 +8,16 @@ export class CpfController {
     constructor() {
         this._service = new CpfService();
     }
-    get = async (req: Request, res: Response): Promise<void> => {
+    get = async (
+        req: Request<{}, {}, {}, CpfRequest>,
+        res: Response,
+    ): Promise<void> => {
         try {
-            const results = await this._service.getAll();
+            const { number, createdAt, sort } = req.query;
+            const results = await this._service.getAll(
+                { number, createdAt },
+                sort,
+            );
             res.status(200).send(results);
         } catch (error) {
             res.status(404).send(error.message);

@@ -1,3 +1,9 @@
 export interface CpfInterface {
-    number: number;
+    number: string;
+}
+
+export interface CpfRequest {
+    sort?: string;
+    number: string;
+    createdAt: Date;
 }

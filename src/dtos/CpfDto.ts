@@ -8,8 +8,8 @@ export class CpfRequestDto extends BaseRequestDto<Cpf> {
         this.sanitirizeCpf();
     }
 
-    get number(): number {
-        return parseInt(cpf.unMask(this._number));
+    get number(): string {
+        return cpf.unMask(this._number);
     }
 
     validateCpf() {
@@ -31,16 +31,17 @@ export class CpfRequestDto extends BaseRequestDto<Cpf> {
     }
 }
 
-export class CpfResponseDto {
+export class CpfResponseDto extends Cpf {
     public number: string;
     public id: string;
     public createdAt: Date;
     public updatedAt: Date;
 
     constructor(init: Partial<Cpf>) {
+        super();
         this.id = init._id;
         this.createdAt = init.createdAt;
         this.updatedAt = init.updatedAt;
-        this.number = cpf.mask(String(init.number));
+        this.number = cpf.mask(init.number);
     }
 }
