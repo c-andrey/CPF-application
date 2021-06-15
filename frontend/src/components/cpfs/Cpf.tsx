@@ -7,6 +7,7 @@ const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
     const initialCpfState = {
         id: '',
         number: '',
+        blocked: false,
     };
 
     const [currentCpf, setCurrentCpf] =
@@ -14,7 +15,7 @@ const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
     const [message, setMessage] = useState('');
 
     const getCpf = async (id: string): Promise<void> => {
-        const cpf = await actions.getCpf({ id, number: '' });
+        const cpf = await actions.getCpf({ id });
         setCurrentCpf(cpf[0] as CpfListInterface);
     };
 
@@ -31,10 +32,18 @@ const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
         setCurrentCpf({ ...currentCpf, [name]: value });
     };
 
+    const handleCheckboxChange = (
+        event: ChangeEvent<HTMLInputElement>,
+    ): void => {
+        const { name, checked } = event.target;
+        setCurrentCpf({ ...currentCpf, [name]: checked });
+    };
+
     const updateCpf = async (): Promise<void> => {
         const cpf = {
             id: currentCpf.id,
             number: currentCpf.number,
+            blocked: currentCpf.blocked,
         };
 
         const updated = await actions.putCpf(cpf);
@@ -65,6 +74,17 @@ const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
                                     name="number"
                                     value={currentCpf.number}
                                     onChange={handleInputChange}
+                                />
+                            </label>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="blocked">
+                                Blacklist
+                                <input
+                                    type="checkbox"
+                                    name="blocked"
+                                    checked={currentCpf.blocked}
+                                    onChange={handleCheckboxChange}
                                 />
                             </label>
                         </div>

@@ -101,9 +101,15 @@ const CpfList = (props: CpfInterface[]) => {
                             </span>{' '}
                             {currentCpf.createdAt}
                         </div>
+                        <div>
+                            <span>
+                                <strong>Blacklist: </strong>
+                            </span>{' '}
+                            {currentCpf.blocked ? 'Sim' : 'Não'}
+                        </div>
                         <Link
                             to={`/cpfs/${currentCpf.id}`}
-                            className="btn badge badge-warning"
+                            className="badge badge-warning"
                         >
                             Editar
                         </Link>

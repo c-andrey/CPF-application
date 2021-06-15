@@ -5,6 +5,7 @@ import actions from '../../services/CpfService';
 const CpfCreate = (): JSX.Element => {
     const initialState: CpfInterface = {
         number: '',
+        blocked: false,
     };
 
     const [cpf, setCpf] = useState(initialState);
@@ -15,10 +16,18 @@ const CpfCreate = (): JSX.Element => {
         setCpf({ ...cpf, [name]: value });
     };
 
+    const handleCheckboxChange = (
+        event: ChangeEvent<HTMLInputElement>,
+    ): void => {
+        const { name, checked } = event.target;
+        setCpf({ ...cpf, [name]: checked });
+    };
+
     const saveCpf = async (): Promise<void> => {
         setLoading(true);
         const data = {
             number: cpf.number,
+            blocked: cpf.blocked,
         };
 
         const created = await actions.postCpf(data);
@@ -44,6 +53,15 @@ const CpfCreate = (): JSX.Element => {
                             value={cpf.number}
                             onChange={handleInputChange}
                             name="number"
+                        />
+                    </label>
+                    <label htmlFor="blocked">
+                        Blacklist
+                        <input
+                            type="checkbox"
+                            name="blocked"
+                            checked={cpf.blocked}
+                            onChange={handleCheckboxChange}
                         />
                     </label>
                 </div>

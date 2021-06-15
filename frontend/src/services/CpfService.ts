@@ -2,7 +2,9 @@
 import { CpfInterface, CpfListInterface } from '../interfaces/CpfInterface';
 import service from './ServiceAbstract';
 
-const getCpf = async (cpf?: CpfInterface): Promise<CpfListInterface[]> => {
+const getCpf = async (
+    cpf?: Partial<CpfInterface>,
+): Promise<CpfListInterface[]> => {
     try {
         let params = {};
         if (cpf) {
