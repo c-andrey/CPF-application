@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
+import * as cpfValidator from 'node-cpf';
 import {
     CpfListInterface,
     FilterInterface,
@@ -10,21 +11,24 @@ const CpfList = (): JSX.Element => {
     const [cpfs, setCpfs] = useState<CpfListInterface[]>([]);
     const [currentCpf, setCurrentCpf] = useState<CpfListInterface | null>(null);
     const [currentIndex, setCurrentIndex] = useState(-1);
+    const [message, setMessage] = useState('');
     const [filters, setFilters] = useState<Partial<FilterInterface>>({
         number: '',
         blocked: false,
         sort: 'asc',
     });
-    const [loading, setLoading] = useState(false);
 
     const retrieveCpfs = async (): Promise<void> => {
-        setLoading(true);
         const data = await actions.getCpf();
         setCpfs(data as CpfListInterface[]);
-        setLoading(false);
     };
-    const onChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const onChangeNumber = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
+        if (!cpfValidator.validate(value)) {
+            setMessage('CPF inválido.');
+        } else {
+            setMessage('');
+        }
         setFilters({ ...filters, [name]: value });
     };
 
@@ -43,10 +47,6 @@ const CpfList = (): JSX.Element => {
         });
     };
 
-    const refreshList = () => {
-        retrieveCpfs();
-    };
-
     const setActiveCpf = (cpf: CpfListInterface, index: number) => {
         setCurrentCpf(cpf);
         setCurrentIndex(index);
@@ -57,14 +57,11 @@ const CpfList = (): JSX.Element => {
     };
 
     const findByCpf = async (e: MouseEvent, listAll = false) => {
-        setLoading(true);
-
         const data = await actions.getCpf(listAll ? null : filters);
         setCpfs(data as CpfListInterface[]);
         if (listAll) {
             resetFilters();
         }
-        setLoading(false);
     };
 
     useEffect(() => {
@@ -80,7 +77,7 @@ const CpfList = (): JSX.Element => {
                         className="form-control"
                         placeholder="Procurar pelo CPF"
                         value={filters.number as string}
-                        onChange={onChangeSearch}
+                        onChange={onChangeNumber}
                     />
 
                     <label htmlFor="blocked">
@@ -126,6 +123,7 @@ const CpfList = (): JSX.Element => {
                         </button>
                     </div>
                 </form>
+                {message ? <div className="error">{message}</div> : ''}
             </div>
             <div className="col-md-6">
                 <h4>Lista de CPFs</h4>
@@ -133,19 +131,19 @@ const CpfList = (): JSX.Element => {
                 <ul className="list-group">
                     {cpfs &&
                         cpfs.map((cpf, index) => (
-                            <li
-                                className={`list-group-item ${
-                                    index === currentIndex ? 'active' : ''
-                                } ${cpf.blocked ? 'blocked' : ''}`}
-                                key={cpf.id}
+                            <button
+                                type="button"
+                                onClick={() => setActiveCpf(cpf, index)}
                             >
-                                <button
-                                    type="button"
-                                    onClick={() => setActiveCpf(cpf, index)}
+                                <li
+                                    className={`list-group-item ${
+                                        index === currentIndex ? 'active' : ''
+                                    } ${cpf.blocked ? 'blocked' : ''}`}
+                                    key={cpf.id}
                                 >
                                     {cpf.number}
-                                </button>
-                            </li>
+                                </li>
+                            </button>
                         ))}
                 </ul>
             </div>

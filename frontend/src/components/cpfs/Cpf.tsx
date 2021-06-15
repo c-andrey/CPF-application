@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import * as cpfValidator from 'node-cpf';
 import { CpfListInterface } from '../../interfaces/CpfInterface';
 import actions from '../../services/CpfService';
 
@@ -29,6 +30,11 @@ const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target;
+        if (!cpfValidator.validate(value)) {
+            setMessage('CPF inválido.');
+        } else {
+            setMessage('');
+        }
         setCurrentCpf({ ...currentCpf, [name]: value });
     };
 

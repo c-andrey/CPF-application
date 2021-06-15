@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
+import * as cpfValidator from 'node-cpf';
 import { CpfInterface } from '../../interfaces/CpfInterface';
 import actions from '../../services/CpfService';
 
@@ -7,12 +8,17 @@ const CpfCreate = (): JSX.Element => {
         number: '',
         blocked: false,
     };
-
+    const [message, setMessage] = useState('');
     const [cpf, setCpf] = useState(initialState);
     const [loading, setLoading] = useState(false);
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target;
+        if (!cpfValidator.validate(value)) {
+            setMessage('CPF inválido.');
+        } else {
+            setMessage('');
+        }
         setCpf({ ...cpf, [name]: value });
     };
 
@@ -70,6 +76,8 @@ const CpfCreate = (): JSX.Element => {
             <button type="submit" onClick={saveCpf} className="btn btn-success">
                 Salvar
             </button>
+
+            {message ? <div className="error">{message}</div> : ''}
         </div>
     );
 };

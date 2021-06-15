@@ -6,6 +6,7 @@ import Cpf from './components/cpfs/Cpf';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import Status from './components/status/Status';
 
 const App = (): JSX.Element => {
     return (
@@ -22,6 +23,11 @@ const App = (): JSX.Element => {
                             Adicionar CPF
                         </Link>
                     </li>
+                    <li className="nav-item">
+                        <Link to="/status" className="nav-link">
+                            Status Servidor
+                        </Link>
+                    </li>
                 </div>
             </nav>
 
@@ -30,6 +36,7 @@ const App = (): JSX.Element => {
                     <Route exact path={['/', '/cpfs']} component={CpfList} />
                     <Route exact path="/add" component={CpfCreate} />
                     <Route exact path="/cpfs/:id" component={Cpf} />
+                    <Route exact path="/status" component={Status} />
                 </Switch>
             </div>
         </div>
