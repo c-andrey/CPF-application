@@ -4,15 +4,15 @@ import { ModelBase } from '../Models/ModelBase';
 export abstract class RepositoryBase<TModel extends ModelBase> {
     constructor(private _mongooseModel: Model<Document<TModel>>) {}
 
-    public async findById(id: string): Promise<TModel> {
+    findById = async (id: string): Promise<TModel> => {
         const item = await this._mongooseModel.findById(id).exec();
         if (item == null) {
             return null;
         }
         return item.toObject<TModel>();
-    }
+    };
 
-    public async findOne(conditions: Partial<TModel>): Promise<TModel> {
+    findOne = async (conditions: Partial<TModel>): Promise<TModel> => {
         const item = await this._mongooseModel
             .findOne(conditions as any)
             .exec();
@@ -20,11 +20,17 @@ export abstract class RepositoryBase<TModel extends ModelBase> {
             return null;
         }
         return item.toObject<TModel>();
-    }
+    };
 
-    public exists(conditions: Partial<TModel>): Promise<boolean> {
-        return this._mongooseModel.exists(conditions as any);
-    }
+    exists = async (conditions: Partial<TModel>): Promise<boolean> => {
+        try {
+            const asd = await this._mongooseModel.exists(conditions as any);
+            console.log(asd);
+            return asd;
+        } catch (error) {
+            throw error;
+        }
+    };
 
     getAll = async (
         conditions?: Partial<TModel>,
@@ -57,8 +63,8 @@ export abstract class RepositoryBase<TModel extends ModelBase> {
         return this.findById(saved.id);
     };
 
-    public async delete(id: string): Promise<boolean> {
+    delete = async (id: string): Promise<boolean> => {
         const deleted = await this._mongooseModel.findByIdAndDelete(id).exec();
         return !!deleted;
-    }
+    };
 }

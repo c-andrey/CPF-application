@@ -36,19 +36,20 @@ export class CpfService extends ServiceBase<
         return result;
     };
 
-    public async findById(id: string): Promise<CpfResponseDto> {
+    findById = async (id: string): Promise<CpfResponseDto> => {
         const data = await this.repo.findById(id);
         if (data) {
             return this.modelToDto(data);
         }
 
         return null;
-    }
+    };
 
     create = async (dto: CpfRequestDto): Promise<CpfResponseDto> => {
         let model = this.dtoToModel(dto);
 
-        if (this.verifyDuplicate(model.number)) {
+        if (await this.verifyDuplicate(model.number)) {
+            console.log('asd');
             throw new Error('Cpf já cadastrado.');
         }
 
@@ -68,7 +69,8 @@ export class CpfService extends ServiceBase<
 
         let model = this.dtoToModel(dto);
 
-        if (this.verifyDuplicate(model.number)) {
+        if (await this.verifyDuplicate(model.number)) {
+            console.log('asd');
             throw new Error('Cpf já cadastrado.');
         }
 
@@ -87,7 +89,7 @@ export class CpfService extends ServiceBase<
 
     verifyDuplicate = async (number: string): Promise<boolean> => {
         const exist = await this.repo.exists({ number });
-        return !!exist;
+        return exist;
     };
 
     protected modelToDto(model: Cpf): CpfResponseDto {

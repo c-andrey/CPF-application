@@ -1,10 +1,8 @@
 /* eslint-disable no-console */
-import axios from 'axios';
 import { CpfInterface, CpfListInterface } from '../interfaces/CpfInterface';
+import service from './ServiceAbstract';
 
-const getCpf = async (
-    cpf?: CpfInterface,
-): Promise<CpfListInterface[] | CpfInterface> => {
+const getCpf = async (cpf?: CpfInterface): Promise<CpfListInterface[]> => {
     try {
         let params = {};
         if (cpf) {
@@ -13,7 +11,7 @@ const getCpf = async (
                 id: cpf.id,
             };
         }
-        const { data } = await axios.get('http://localhost:8080/api/cpf', {
+        const { data } = await service.get('/cpf', {
             params,
         });
         return data;
@@ -24,7 +22,7 @@ const getCpf = async (
 };
 const postCpf = async (cpf: CpfInterface): Promise<CpfInterface> => {
     try {
-        const { data } = await axios.post('http://localhost:8080/api/cpf', cpf);
+        const { data } = await service.post('/cpf', cpf);
         return data;
     } catch (error) {
         console.error(error);
@@ -34,10 +32,7 @@ const postCpf = async (cpf: CpfInterface): Promise<CpfInterface> => {
 
 const putCpf = async (cpf: CpfListInterface): Promise<CpfListInterface> => {
     try {
-        const { data } = await axios.put(
-            `http://localhost:8080/api/cpf/${cpf.id}`,
-            cpf,
-        );
+        const { data } = await service.put(`/cpf/${cpf.id}`, cpf);
 
         return data;
     } catch (error) {
@@ -48,9 +43,7 @@ const putCpf = async (cpf: CpfListInterface): Promise<CpfListInterface> => {
 
 const deleteCpf = async (id: string): Promise<boolean> => {
     try {
-        const { data } = await axios.delete(
-            `http://localhost:8080/api/cpf/${id}`,
-        );
+        const { data } = await service.delete(`/cpf/${id}`);
         return data;
     } catch (error) {
         console.error(error);

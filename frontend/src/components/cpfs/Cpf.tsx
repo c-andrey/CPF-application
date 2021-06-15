@@ -1,8 +1,9 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { CpfInterface, CpfListInterface } from '../../interfaces/CpfInterface';
+import { RouteComponentProps } from 'react-router-dom';
+import { CpfListInterface } from '../../interfaces/CpfInterface';
 import actions from '../../services/CpfService';
 
-const Cpf = (props: CpfInterface): JSX.Element => {
+const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
     const initialCpfState = {
         id: '',
         number: '',
@@ -14,12 +15,12 @@ const Cpf = (props: CpfInterface): JSX.Element => {
 
     const getCpf = async (id: string): Promise<void> => {
         const cpf = await actions.getCpf({ id, number: '' });
-        setCurrentCpf(cpf as CpfListInterface);
+        setCurrentCpf(cpf[0] as CpfListInterface);
     };
 
     useEffect(() => {
-        if (props.id) {
-            getCpf(props.id);
+        if (props.match.params.id) {
+            getCpf(props.match.params.id);
         } else {
             setMessage('CPF não encontrado.');
         }

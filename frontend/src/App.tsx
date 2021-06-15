@@ -2,9 +2,10 @@ import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import CpfList from './components/cpfs/CpfList';
 import CpfCreate from './components/cpfs/CpfCreate';
+import Cpf from './components/cpfs/Cpf';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Cpf from './components/cpfs/Cpf';
+import './App.css';
 
 const App = (): JSX.Element => {
     return (
@@ -28,7 +29,7 @@ const App = (): JSX.Element => {
                 <Switch>
                     <Route exact path={['/', '/cpfs']} component={CpfList} />
                     <Route exact path="/add" component={CpfCreate} />
-                    <Route exact path="/cpf/:id" component={Cpf} />
+                    <Route exact path="/cpfs/:id" component={Cpf} />
                 </Switch>
             </div>
         </div>
