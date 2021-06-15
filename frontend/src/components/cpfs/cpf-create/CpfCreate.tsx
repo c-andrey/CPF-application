@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
 import * as cpfValidator from 'node-cpf';
-import { create } from 'domain';
 import { CpfInterface } from '../../../interfaces/CpfInterface';
 import actions from '../../../services/CpfService';
 
@@ -11,7 +10,6 @@ const CpfCreate = (): JSX.Element => {
     };
     const [message, setMessage] = useState('');
     const [cpf, setCpf] = useState(initialState);
-    const [loading, setLoading] = useState(false);
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target;
