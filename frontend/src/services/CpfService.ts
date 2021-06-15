@@ -3,7 +3,7 @@ import { CpfInterface, CpfListInterface } from '../interfaces/CpfInterface';
 import service from './ServiceAbstract';
 
 const getCpf = async (
-    cpf?: Partial<CpfInterface>,
+    cpf?: Partial<CpfInterface> | null,
 ): Promise<CpfListInterface[]> => {
     try {
         let params = {};
@@ -11,6 +11,7 @@ const getCpf = async (
             params = {
                 number: cpf.number,
                 id: cpf.id,
+                blocked: cpf.blocked,
             };
         }
         const { data } = await service.get('/cpf', {

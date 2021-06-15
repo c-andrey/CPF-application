@@ -1,13 +1,16 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { CpfListInterface } from '../../interfaces/CpfInterface';
+import { CpfInterface, CpfListInterface } from '../../interfaces/CpfInterface';
 import actions from '../../services/CpfService';
 
 const CpfList = (): JSX.Element => {
     const [cpfs, setCpfs] = useState<CpfListInterface[]>([]);
     const [currentCpf, setCurrentCpf] = useState<CpfListInterface | null>(null);
     const [currentIndex, setCurrentIndex] = useState(-1);
-    const [searchCpf, setSearchCpf] = useState('');
+    const [filters, setFilters] = useState<Partial<CpfInterface>>({
+        number: '',
+        blocked: false,
+    });
     const [loading, setLoading] = useState(false);
 
     const retrieveCpfs = async (): Promise<void> => {
@@ -17,7 +20,15 @@ const CpfList = (): JSX.Element => {
         setLoading(false);
     };
     const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchCpf(e.target.value);
+        const { name, value } = e.target;
+        setFilters({ ...filters, [name]: value });
+    };
+
+    const handleCheckboxChange = (
+        event: ChangeEvent<HTMLInputElement>,
+    ): void => {
+        const { name, checked } = event.target;
+        setFilters({ ...filters, [name]: checked });
     };
 
     const refreshList = () => {
@@ -29,10 +40,18 @@ const CpfList = (): JSX.Element => {
         setCurrentIndex(index);
     };
 
-    const findByCpf = async () => {
+    const resetFilters = () => {
+        setFilters({ number: '', blocked: false });
+    };
+
+    const findByCpf = async (e: MouseEvent, listAll = false) => {
         setLoading(true);
-        const data = await actions.getCpf({ number: searchCpf });
+
+        const data = await actions.getCpf(listAll ? null : filters);
         setCpfs(data as CpfListInterface[]);
+        if (listAll) {
+            resetFilters();
+        }
         setLoading(false);
     };
 
@@ -42,25 +61,45 @@ const CpfList = (): JSX.Element => {
     return (
         <div className="list row">
             <div className="col-md-8">
-                <div className="input-group mb-3">
+                <form className="input-group mb-3">
                     <input
                         type="text"
+                        name="number"
                         className="form-control"
                         placeholder="Procurar pelo CPF"
-                        value={searchCpf}
+                        value={filters.number as string}
                         onChange={onChangeSearch}
                     />
+
+                    <label htmlFor="blocked">
+                        Blacklist
+                        <input
+                            type="checkbox"
+                            name="blocked"
+                            checked={filters.blocked as boolean}
+                            onChange={handleCheckboxChange}
+                        />
+                    </label>
 
                     <div className="input-group-append">
                         <button
                             className="btn btn-outline-secondary"
                             type="button"
-                            onClick={findByCpf}
+                            onClick={event => findByCpf(event)}
                         >
                             Procurar
                         </button>
                     </div>
-                </div>
+                    <div className="input-group-append">
+                        <button
+                            className="btn btn-outline-secondary"
+                            type="button"
+                            onClick={event => findByCpf(event, true)}
+                        >
+                            Listar Todos
+                        </button>
+                    </div>
+                </form>
             </div>
             <div className="col-md-6">
                 <h4>Lista de CPFs</h4>

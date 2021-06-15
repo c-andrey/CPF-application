@@ -30,6 +30,12 @@ export class CpfService extends ServiceBase<
                 number: cpf.number,
             };
         }
+        if (cpf.blocked) {
+            query = {
+                ...query,
+                blocked: cpf.blocked,
+            };
+        }
 
         const data = await this.repo.getAll(query, { number: sort || 'asc' });
         const result = data.map(item => this.modelToDto(item));

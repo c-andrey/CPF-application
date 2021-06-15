@@ -13,9 +13,9 @@ export class CpfController {
         res: Response,
     ): Promise<void> => {
         try {
-            const { id, number, createdAt, sort } = req.query;
+            const { id, number, createdAt, blocked, sort } = req.query;
             const results = await this._service.getAll(
-                { _id: id, number, createdAt },
+                { _id: id, number, createdAt, blocked },
                 sort,
             );
             res.status(200).send(results);
