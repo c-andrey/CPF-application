@@ -1,9 +1,10 @@
 import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import CpfList from './components/cpfs/CpfList';
-import cpfCreate from './components/cpfs/CpfCreate';
+import CpfCreate from './components/cpfs/CpfCreate';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Cpf from './components/cpfs/Cpf';
 
 const App = (): JSX.Element => {
     return (
@@ -26,7 +27,8 @@ const App = (): JSX.Element => {
             <div className="container mt-3">
                 <Switch>
                     <Route exact path={['/', '/cpfs']} component={CpfList} />
-                    <Route exact path="/add" component={cpfCreate} />
+                    <Route exact path="/add" component={CpfCreate} />
+                    <Route exact path="/cpf/:id" component={Cpf} />
                 </Switch>
             </div>
         </div>

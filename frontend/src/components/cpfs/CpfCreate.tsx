@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { CpfInterface } from '../../interfaces/CpfInterface';
 import actions from '../../services/CpfService';
 
-const cpfCreate = (): JSX.Element => {
+const CpfCreate = (): JSX.Element => {
     const initialState: CpfInterface = {
         number: '',
     };
@@ -55,4 +55,4 @@ const cpfCreate = (): JSX.Element => {
         </div>
     );
 };
-export default cpfCreate;
+export default CpfCreate;

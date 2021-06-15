@@ -23,7 +23,7 @@ const CpfList = (props: CpfInterface[]) => {
 
     const findByCpf = async () => {
         setLoading(true);
-        const data = await actions.getCpf(searchCpf);
+        const data = await actions.getCpf({ number: searchCpf });
         setCpfs(data);
         setLoading(false);
     };

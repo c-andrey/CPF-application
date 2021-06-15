@@ -8,6 +8,6 @@ export interface CpfInterface {
 export interface CpfListInterface {
     id: string;
     number: string;
-    createdAt: Date;
+    createdAt?: Date;
     updatedAt?: Date;
 }
