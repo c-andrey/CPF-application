@@ -18,6 +18,12 @@ export class CpfService extends ServiceBase<
         sort: string,
     ): Promise<CpfResponseDto[]> => {
         let query = {};
+        if (cpf._id) {
+            query = {
+                ...query,
+                _id: cpf._id,
+            };
+        }
         if (cpf.number) {
             query = {
                 ...query,
