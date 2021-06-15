@@ -61,16 +61,16 @@ export class CpfService extends ServiceBase<
         id: string,
         dto: CpfRequestDto,
     ): Promise<CpfResponseDto> => {
-        const exist = await this.repo.exists({ _id: id });
-        if (!exist) {
-            throw new Error('Registro não existe.');
-        }
+        const data = await this.repo.findOne({ _id: id, number: dto.number });
 
+        if (!data || data.number !== dto.number) {
+            const exist = await this.repo.exists({ number: dto.number });
+
+            if (exist) {
+                throw new Error('CPF já cadastrado.');
+            }
+        }
         let model = this.dtoToModel(dto);
-
-        if (await this.verifyDuplicate(model.number)) {
-            throw new Error('Cpf já cadastrado.');
-        }
 
         model = await this.repo.update(id, model);
         return this.modelToDto(model);
