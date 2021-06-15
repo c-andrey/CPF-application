@@ -27,9 +27,9 @@ export class CpfController {
 
     post = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { number } = req.body;
+            const { number, blocked } = req.body;
 
-            const data = new CpfRequestDto(number);
+            const data = new CpfRequestDto(number, blocked);
             const created = await this._service.create(data);
 
             res.status(201).send(created);
@@ -42,9 +42,9 @@ export class CpfController {
     put = async (req: Request, res: Response): Promise<void> => {
         try {
             const { id } = req.params;
-            const { number } = req.body;
+            const { number, blocked } = req.body;
 
-            const data = new CpfRequestDto(number);
+            const data = new CpfRequestDto(number, blocked);
             const updated = await this._service.update(id, data);
 
             res.status(200).send(updated);

@@ -49,7 +49,6 @@ export class CpfService extends ServiceBase<
         let model = this.dtoToModel(dto);
 
         if (await this.verifyDuplicate(model.number)) {
-            console.log('asd');
             throw new Error('Cpf já cadastrado.');
         }
 
@@ -70,7 +69,6 @@ export class CpfService extends ServiceBase<
         let model = this.dtoToModel(dto);
 
         if (await this.verifyDuplicate(model.number)) {
-            console.log('asd');
             throw new Error('Cpf já cadastrado.');
         }
 
