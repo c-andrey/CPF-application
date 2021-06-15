@@ -1,6 +1,6 @@
 import express from 'express';
-import { Request, Response } from 'express';
 import { CpfController } from './Controllers/CpfController';
+import serverStatus from './config/ServerStatus';
 
 const cpfController = new CpfController();
 
@@ -12,4 +12,5 @@ router.put('/api/cpf/:id', cpfController.put);
 router.post('/api/cpf', cpfController.post);
 router.delete('/api/cpf/:id', cpfController.delete);
 
-export { router as cpfRouter };
+router.get('/api/status', serverStatus);
+export default router;

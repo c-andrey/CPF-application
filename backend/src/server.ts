@@ -5,7 +5,7 @@ import cors from 'cors';
 import './Controllers/CpfController';
 
 import { run } from './config/MongooseConection';
-import { cpfRouter } from './router';
+import router from './router';
 // Constants
 const PORT = 8080;
 const HOST = 'localhost';
@@ -15,7 +15,7 @@ const app = express();
 
 app.use(json());
 app.use(cors());
-app.use(cpfRouter);
+app.use(router);
 
 run();
 
