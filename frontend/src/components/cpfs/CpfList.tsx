@@ -1,15 +1,19 @@
 import React, { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { CpfInterface, CpfListInterface } from '../../interfaces/CpfInterface';
+import {
+    CpfListInterface,
+    FilterInterface,
+} from '../../interfaces/CpfInterface';
 import actions from '../../services/CpfService';
 
 const CpfList = (): JSX.Element => {
     const [cpfs, setCpfs] = useState<CpfListInterface[]>([]);
     const [currentCpf, setCurrentCpf] = useState<CpfListInterface | null>(null);
     const [currentIndex, setCurrentIndex] = useState(-1);
-    const [filters, setFilters] = useState<Partial<CpfInterface>>({
+    const [filters, setFilters] = useState<Partial<FilterInterface>>({
         number: '',
         blocked: false,
+        sort: 'asc',
     });
     const [loading, setLoading] = useState(false);
 
@@ -19,8 +23,8 @@ const CpfList = (): JSX.Element => {
         setCpfs(data as CpfListInterface[]);
         setLoading(false);
     };
-    const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+    const onChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
         setFilters({ ...filters, [name]: value });
     };
 
@@ -29,6 +33,14 @@ const CpfList = (): JSX.Element => {
     ): void => {
         const { name, checked } = event.target;
         setFilters({ ...filters, [name]: checked });
+    };
+
+    const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        const { value } = event.target.selectedOptions[0];
+        setFilters({
+            ...filters,
+            sort: value,
+        });
     };
 
     const refreshList = () => {
@@ -79,6 +91,20 @@ const CpfList = (): JSX.Element => {
                             checked={filters.blocked as boolean}
                             onChange={handleCheckboxChange}
                         />
+                    </label>
+
+                    <label htmlFor="sort">
+                        Ordenação:
+                        <select
+                            name="sort"
+                            id="sort"
+                            onChange={handleSelectChange}
+                        >
+                            <option value="asc">Número do CPF crescente</option>
+                            <option value="desc">
+                                Número do CPF decrescente
+                            </option>
+                        </select>
                     </label>
 
                     <div className="input-group-append">

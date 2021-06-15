@@ -6,6 +6,10 @@ export interface CpfInterface {
     updatedAt?: Date;
 }
 
+export interface FilterInterface extends CpfInterface {
+    sort?: string;
+}
+
 export interface CpfListInterface {
     id: string;
     blocked: boolean;

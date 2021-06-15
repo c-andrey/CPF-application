@@ -1,9 +1,13 @@
 /* eslint-disable no-console */
-import { CpfInterface, CpfListInterface } from '../interfaces/CpfInterface';
+import {
+    CpfInterface,
+    CpfListInterface,
+    FilterInterface,
+} from '../interfaces/CpfInterface';
 import service from './ServiceAbstract';
 
 const getCpf = async (
-    cpf?: Partial<CpfInterface> | null,
+    cpf?: Partial<FilterInterface> | null,
 ): Promise<CpfListInterface[]> => {
     try {
         let params = {};
@@ -12,6 +16,7 @@ const getCpf = async (
                 number: cpf.number,
                 id: cpf.id,
                 blocked: cpf.blocked,
+                sort: cpf.sort,
             };
         }
         const { data } = await service.get('/cpf', {
