@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useState } from 'react';
 import * as cpfValidator from 'node-cpf';
-import { CpfInterface } from '../../interfaces/CpfInterface';
-import actions from '../../services/CpfService';
+import { create } from 'domain';
+import { CpfInterface } from '../../../interfaces/CpfInterface';
+import actions from '../../../services/CpfService';
 
 const CpfCreate = (): JSX.Element => {
     const initialState: CpfInterface = {
@@ -30,7 +31,6 @@ const CpfCreate = (): JSX.Element => {
     };
 
     const saveCpf = async (): Promise<void> => {
-        setLoading(true);
         const data = {
             number: cpf.number,
             blocked: cpf.blocked,
@@ -38,17 +38,12 @@ const CpfCreate = (): JSX.Element => {
 
         const created = await actions.postCpf(data);
         setCpf(created);
-        setLoading(false);
     };
 
     return (
         <div className="submit-form">
-            {loading ? (
-                <div>
-                    <div className="loading" />
-                </div>
-            ) : (
-                <div className="form-group">
+            <div className="form-group">
+                <div className="form-item">
                     <label htmlFor="number">
                         CPF:
                         <input
@@ -61,8 +56,10 @@ const CpfCreate = (): JSX.Element => {
                             name="number"
                         />
                     </label>
+                </div>
+                <div className="form-item">
                     <label htmlFor="blocked">
-                        Blacklist
+                        Adicionar à blacklist
                         <input
                             type="checkbox"
                             name="blocked"
@@ -71,9 +68,14 @@ const CpfCreate = (): JSX.Element => {
                         />
                     </label>
                 </div>
-            )}
+            </div>
 
-            <button type="submit" onClick={saveCpf} className="btn btn-success">
+            <button
+                disabled={!!message || !cpf.number}
+                type="submit"
+                onClick={saveCpf}
+                className="btn btn-success"
+            >
                 Salvar
             </button>
 

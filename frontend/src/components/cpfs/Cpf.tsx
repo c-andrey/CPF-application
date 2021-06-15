@@ -9,6 +9,7 @@ const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
         id: '',
         number: '',
         blocked: false,
+        createdAt: '',
     };
 
     const [currentCpf, setCurrentCpf] =

@@ -14,6 +14,6 @@ export interface CpfListInterface {
     id: string;
     blocked: boolean;
     number: string;
-    createdAt?: Date;
+    createdAt: string;
     updatedAt?: Date;
 }

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
-import CpfList from './components/cpfs/CpfList';
-import CpfCreate from './components/cpfs/CpfCreate';
+import CpfList from './components/cpfs/cpt-list/CpfList';
+import CpfCreate from './components/cpfs/cpf-create/CpfCreate';
 import Cpf from './components/cpfs/Cpf';
+import Status from './components/status/Status';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Status from './components/status/Status';
 
 const App = (): JSX.Element => {
     return (

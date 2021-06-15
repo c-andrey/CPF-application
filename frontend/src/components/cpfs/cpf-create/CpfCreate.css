@@ -1,0 +1,21 @@
+.column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.form-item {
+    display: flex;
+    margin: 10px 0;
+    flex-direction: row;
+}
+
+label {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-content: center;
+}
+
+.form-checkbox {
+    margin-left: 5px;
+}

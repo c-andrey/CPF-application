@@ -38,7 +38,7 @@ const postCpf = async (cpf: CpfInterface): Promise<CpfInterface> => {
     }
 };
 
-const putCpf = async (cpf: CpfListInterface): Promise<CpfListInterface> => {
+const putCpf = async (cpf: CpfInterface): Promise<CpfListInterface> => {
     try {
         const { data } = await service.put(`/cpf/${cpf.id}`, cpf);
 

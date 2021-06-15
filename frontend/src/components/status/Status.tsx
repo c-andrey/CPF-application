@@ -27,7 +27,9 @@ const Status = (): JSX.Element => {
     return (
         <div className="status">
             {status.uptime ? (
-                <p className="uptime">HH:mm:ss {getTime()}</p>
+                <p className="uptime">
+                    Uptime do servidor: {getTime()} (HH:mm:ss)
+                </p>
             ) : (
                 ''
             )}

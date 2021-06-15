@@ -4,8 +4,10 @@ import * as cpfValidator from 'node-cpf';
 import {
     CpfListInterface,
     FilterInterface,
-} from '../../interfaces/CpfInterface';
-import actions from '../../services/CpfService';
+} from '../../../interfaces/CpfInterface';
+import actions from '../../../services/CpfService';
+
+import './CpfList.css';
 
 const CpfList = (): JSX.Element => {
     const [cpfs, setCpfs] = useState<CpfListInterface[]>([]);
@@ -24,10 +26,10 @@ const CpfList = (): JSX.Element => {
     };
     const onChangeNumber = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        if (!cpfValidator.validate(value)) {
-            setMessage('CPF inválido.');
-        } else {
+        if (cpfValidator.validate(value) || value === '') {
             setMessage('');
+        } else {
+            setMessage('CPF Inválido.');
         }
         setFilters({ ...filters, [name]: value });
     };
@@ -57,6 +59,7 @@ const CpfList = (): JSX.Element => {
     };
 
     const findByCpf = async (e: MouseEvent, listAll = false) => {
+        e.preventDefault();
         const data = await actions.getCpf(listAll ? null : filters);
         setCpfs(data as CpfListInterface[]);
         if (listAll) {
@@ -64,56 +67,72 @@ const CpfList = (): JSX.Element => {
         }
     };
 
+    const getDateFormatted = (dateString: string): string => {
+        const date = new Date(dateString);
+        return date.toLocaleString();
+    };
+
     useEffect(() => {
         retrieveCpfs();
     }, []);
     return (
-        <div className="list row">
-            <div className="col-md-8">
-                <form className="input-group mb-3">
-                    <input
-                        type="text"
-                        name="number"
-                        className="form-control"
-                        placeholder="Procurar pelo CPF"
-                        value={filters.number as string}
-                        onChange={onChangeNumber}
-                    />
+        <div className="row">
+            <div className="column col-md-4">
+                <form className="column center input-group mb-3">
+                    <div className="form-item">
+                        <label htmlFor="number">
+                            CPF:
+                            <input
+                                type="text"
+                                name="number"
+                                className="form-control"
+                                placeholder="Procurar pelo CPF"
+                                value={filters.number as string}
+                                onChange={onChangeNumber}
+                            />
+                        </label>
+                    </div>
 
-                    <label htmlFor="blocked">
-                        Blacklist
-                        <input
-                            type="checkbox"
-                            name="blocked"
-                            checked={filters.blocked as boolean}
-                            onChange={handleCheckboxChange}
-                        />
-                    </label>
+                    <div className="form-item">
+                        <label htmlFor="blocked">
+                            Listar CPFs bloqueados
+                            <input
+                                className="form-checkbox"
+                                type="checkbox"
+                                name="blocked"
+                                checked={filters.blocked as boolean}
+                                onChange={handleCheckboxChange}
+                            />
+                        </label>
+                    </div>
 
-                    <label htmlFor="sort">
-                        Ordenação:
-                        <select
-                            name="sort"
-                            id="sort"
-                            onChange={handleSelectChange}
-                        >
-                            <option value="asc">Número do CPF crescente</option>
-                            <option value="desc">
-                                Número do CPF decrescente
-                            </option>
-                        </select>
-                    </label>
-
-                    <div className="input-group-append">
+                    <div className="form-item">
+                        <label htmlFor="sort">
+                            Ordenação:
+                            <select
+                                className="form-select"
+                                name="sort"
+                                id="sort"
+                                onChange={handleSelectChange}
+                            >
+                                <option value="asc">
+                                    Número do CPF crescente
+                                </option>
+                                <option value="desc">
+                                    Número do CPF decrescente
+                                </option>
+                            </select>
+                        </label>
+                    </div>
+                    <div className="input-group-append form-item">
                         <button
+                            disabled={!!message}
                             className="btn btn-outline-secondary"
-                            type="button"
+                            type="submit"
                             onClick={event => findByCpf(event)}
                         >
                             Procurar
                         </button>
-                    </div>
-                    <div className="input-group-append">
                         <button
                             className="btn btn-outline-secondary"
                             type="button"
@@ -125,7 +144,7 @@ const CpfList = (): JSX.Element => {
                 </form>
                 {message ? <div className="error">{message}</div> : ''}
             </div>
-            <div className="col-md-6">
+            <div className="column col-md-4">
                 <h4>Lista de CPFs</h4>
 
                 <ul className="list-group">
@@ -134,12 +153,12 @@ const CpfList = (): JSX.Element => {
                             <button
                                 type="button"
                                 onClick={() => setActiveCpf(cpf, index)}
+                                key={cpf.id}
                             >
                                 <li
                                     className={`list-group-item ${
                                         index === currentIndex ? 'active' : ''
                                     } ${cpf.blocked ? 'blocked' : ''}`}
-                                    key={cpf.id}
                                 >
                                     {cpf.number}
                                 </li>
@@ -148,7 +167,7 @@ const CpfList = (): JSX.Element => {
                 </ul>
             </div>
 
-            <div className="col-md-6">
+            <div className="column col-md-4">
                 {currentCpf ? (
                     <div>
                         <h4>CPF</h4>
@@ -162,7 +181,7 @@ const CpfList = (): JSX.Element => {
                             <span>
                                 <strong>Data de Registro: </strong>
                             </span>{' '}
-                            {currentCpf.createdAt}
+                            {getDateFormatted(currentCpf.createdAt)}
                         </div>
                         <div>
                             <span>
