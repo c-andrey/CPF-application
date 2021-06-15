@@ -37,7 +37,9 @@ export class CpfService extends ServiceBase<
             };
         }
 
-        const data = await this.repo.getAll(query, { number: sort || 'asc' });
+        const data = await this.repo.getAll(query, {
+            number: sort || 'asc',
+        });
         const result = data.map(item => this.modelToDto(item));
         return result;
     };
