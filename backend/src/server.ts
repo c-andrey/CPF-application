@@ -1,8 +1,7 @@
 import { json } from 'body-parser';
 import express from 'express';
 import http from 'http';
-import { AppRouter } from './config/AppRouter';
-
+import cors from 'cors';
 import './Controllers/CpfController';
 
 import { run } from './config/MongooseConection';
@@ -15,6 +14,7 @@ const HOST = 'localhost';
 const app = express();
 
 app.use(json());
+app.use(cors());
 app.use(cpfRouter);
 
 run();
