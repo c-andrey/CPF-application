@@ -1,9 +1,9 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { CpfInterface, CpfListInterface } from '../../interfaces/CpfInterface';
+import { CpfListInterface } from '../../interfaces/CpfInterface';
 import actions from '../../services/CpfService';
 
-const CpfList = (props: CpfInterface[]) => {
+const CpfList = (): JSX.Element => {
     const [cpfs, setCpfs] = useState<CpfListInterface[]>([]);
     const [currentCpf, setCurrentCpf] = useState<CpfListInterface | null>(null);
     const [currentIndex, setCurrentIndex] = useState(-1);
@@ -71,7 +71,7 @@ const CpfList = (props: CpfInterface[]) => {
                             <li
                                 className={`list-group-item ${
                                     index === currentIndex ? 'active' : ''
-                                }`}
+                                } ${cpf.blocked ? 'blocked' : ''}`}
                                 key={cpf.id}
                             >
                                 <button

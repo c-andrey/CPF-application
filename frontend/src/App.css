@@ -13,3 +13,11 @@
     max-width: 300px;
     margin: auto;
 }
+
+.blocked {
+    background-color: rgb(61, 10, 10);
+}
+
+.blocked.active {
+    background-color: black;
+}
