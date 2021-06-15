@@ -31,7 +31,7 @@ const CpfList = (): JSX.Element => {
         } else {
             setMessage('CPF Inválido.');
         }
-        setFilters({ ...filters, [name]: value });
+        setFilters({ ...filters, [name]: cpfValidator.unMask(value) });
     };
 
     const handleCheckboxChange = (

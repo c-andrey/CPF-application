@@ -49,7 +49,7 @@ const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
     const updateCpf = async (): Promise<void> => {
         const cpf = {
             id: currentCpf.id,
-            number: currentCpf.number,
+            number: cpfValidator.unMask(currentCpf.number),
             blocked: currentCpf.blocked,
         };
 

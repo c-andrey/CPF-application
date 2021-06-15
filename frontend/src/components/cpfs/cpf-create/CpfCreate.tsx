@@ -30,7 +30,7 @@ const CpfCreate = (): JSX.Element => {
 
     const saveCpf = async (): Promise<void> => {
         const data = {
-            number: cpf.number,
+            number: cpfValidator.unMask(cpf.number),
             blocked: cpf.blocked,
         };
 
