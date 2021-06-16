@@ -16,13 +16,11 @@
 
 label {
     display: flex;
-    flex-direction: row;
     flex: 1;
-    align-content: center;
 }
 
 .form-checkbox {
-    margin-left: 5px;
+    margin: 5px 0 0 5px;
 }
 .input-group-append {
     display: flex;

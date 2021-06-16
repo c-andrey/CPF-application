@@ -1,10 +1,11 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 import * as cpfValidator from 'node-cpf';
 import { CpfListInterface } from '../../interfaces/CpfInterface';
 import actions from '../../services/CpfService';
 
 const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
+    const history = useHistory();
     const initialCpfState = {
         id: '',
         number: '',
@@ -62,6 +63,7 @@ const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
         const deleted = await actions.deleteCpf(currentCpf.id);
         if (deleted) {
             setMessage('CPF deletado com sucesso.');
+            history.push('/cpfs');
         }
     };
 
@@ -71,7 +73,7 @@ const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
                 <div className="edit-form">
                     <h4>CPF</h4>
                     <form>
-                        <div className="form-group">
+                        <div className="form-item">
                             <label htmlFor="number">
                                 CPF
                                 <input
@@ -84,32 +86,33 @@ const Cpf = (props: RouteComponentProps<{ id: string }>): JSX.Element => {
                                 />
                             </label>
                         </div>
-                        <div className="form-group">
+                        <div className="form-item">
                             <label htmlFor="blocked">
                                 Blacklist
                                 <input
                                     type="checkbox"
+                                    className="form-checkbox"
                                     name="blocked"
                                     checked={currentCpf.blocked}
                                     onChange={handleCheckboxChange}
                                 />
                             </label>
                         </div>
-                        <div className="form-group">
+                        <div className="form-item">
                             <p>Data de registro: {currentCpf.createdAt} </p>
                         </div>
                     </form>
 
                     <button
                         type="button"
-                        className="badge badge-danger mr-2"
+                        className="btn btn-outline-secondary"
                         onClick={deleteCpf}
                     >
                         Deletar
                     </button>
                     <button
                         type="submit"
-                        className="badge badge-danger mr-2"
+                        className="btn btn-outline-secondary"
                         onClick={updateCpf}
                     >
                         Atualizar

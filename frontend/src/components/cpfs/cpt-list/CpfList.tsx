@@ -191,7 +191,7 @@ const CpfList = (): JSX.Element => {
                         </div>
                         <Link
                             to={`/cpfs/${currentCpf.id}`}
-                            className="badge badge-warning"
+                            className="btn btn-outline-secondary"
                         >
                             Editar
                         </Link>

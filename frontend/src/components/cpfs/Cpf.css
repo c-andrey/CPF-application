@@ -1,14 +1,12 @@
-.column {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
 .form-item {
     display: flex;
     margin: 10px 0;
     flex-direction: row;
 }
-
 .form-checkbox {
     margin-left: 5px 0 0 5px;
+}
+.edit-form {
+    display: flex;
+    flex: 1;
 }

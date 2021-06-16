@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import * as cpfValidator from 'node-cpf';
 import { CpfInterface } from '../../../interfaces/CpfInterface';
 import actions from '../../../services/CpfService';
+import './CpfCreate.css';
 
 const CpfCreate = (): JSX.Element => {
     const initialState: CpfInterface = {
@@ -36,6 +37,7 @@ const CpfCreate = (): JSX.Element => {
 
         const created = await actions.postCpf(data);
         setCpf(created);
+        setMessage('CPF Adicionado com sucesso.');
     };
 
     return (
@@ -61,6 +63,7 @@ const CpfCreate = (): JSX.Element => {
                         <input
                             type="checkbox"
                             name="blocked"
+                            className="form-checkbox"
                             checked={cpf.blocked}
                             onChange={handleCheckboxChange}
                         />
