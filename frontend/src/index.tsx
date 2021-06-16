@@ -4,8 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 
-// eslint-disable-next-line no-console
-console.log(process.env.NODE_ENV, process.env.REACT_APP_BASE_URL);
 ReactDOM.render(
     <BrowserRouter>
         <App />
