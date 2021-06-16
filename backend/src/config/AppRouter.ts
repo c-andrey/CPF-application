@@ -6,10 +6,6 @@ export class AppRouter {
     static getInstance(): express.Router {
         if (!AppRouter.instance) {
             AppRouter.instance = express.Router();
-
-            AppRouter.instance.get('/', (req, res) => {
-                res.send('asd');
-            });
         }
 
         return AppRouter.instance;

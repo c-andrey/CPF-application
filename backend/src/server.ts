@@ -3,12 +3,14 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import './Controllers/CpfController';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import { run } from './config/MongooseConection';
 import router from './router';
 // Constants
-const PORT = 8080;
-const HOST = 'localhost';
+const PORT = process.env.PORT;
+const HOST = process.env.HOST;
 
 // App
 const app = express();
@@ -19,6 +21,6 @@ app.use(router);
 
 run();
 
-http.createServer(app).listen(PORT, () => {
+http.createServer(app).listen(parseInt(PORT), HOST, 511, () => {
     console.log(`Running on http://${HOST}:${PORT}`);
 });
