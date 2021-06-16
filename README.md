@@ -37,3 +37,7 @@ Desenvolver uma aplicação de validação de CPF/CNPJ que deve conter uma inter
 2. Executar o comando "npm run build"
 3. Instalar o pacote serve "npm install -g serve"
 4. Executar o comando "serve -s build -l PORTA" substituindo PORTA pela porta desejada (padrão: 5000)
+
+## Acesso
+
+basta acessar a URL inserida e a porta (padrão: http://localhost:5000)
