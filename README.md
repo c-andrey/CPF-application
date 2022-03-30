@@ -1,7 +1,3 @@
-## Teste Neoway
-
-Teste técnico para o processo seletivo de Analista Desenvolvimento para FullStack
-
 ## Objetivo
 
 Desenvolver uma aplicação de validação de CPF/CNPJ que deve conter uma interface (UI) para gerenciamento de CPF/CNPJ (CRUD) com a possibilidade filtros, ordenação e marcação de alguns em uma blacklist.
